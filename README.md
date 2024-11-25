@@ -35,13 +35,6 @@ The true cell type information is only used for prediction accuracy assessment.
 
 We provide default data (Wang) for users to understand and debug the scE2TM code.
 
-### Cell type annotation example
-First let's load Muraro dataset. The data can be found in the data folder or [here](https://drive.google.com/drive/folders/1jbqSxacL_IDIZ4uPjq220C9Kv024m9eL).
-
-```bash
-import scanpy as sc
-our_query_adata = sc.read('path_to/Muraro.h5ad') 
-```
 
 ### Training
 
