@@ -11,13 +11,14 @@ The repository includes detailed installation instructions and requirements, scr
 ![](Flow.jpg)
 
 **(a)** To better collaborate the information of different modalities, clusters and topic heads are trained based on mutually refined neighborhood information by encouraging consistent clustering assignments of mutual nearest neighbors of the corresponding cells of different modalities in the embedding space.. 
-**(b)** ECR clusters gene embeddings $\mathbf{g}_{j}$ ($\textcolor{myblue}{\bullet}$) as samples and topic embeddings $\mathbf{t}_{k}$ ($\textcolor{myred}{\star}$) as centers with soft-assignment $\pi_{\epsilon, j k}^{*}$. Here ECR pushes $\mathbf{g}_{1}$ and $\mathbf{g}_{2}$ close to $\mathbf{t}_{1}$ and away from $\mathbf{t}_{3}$ and $\mathbf{t}_{5}$..
+**(b)** ECR clusters gene embeddings $\mathbf{g}_{j}$ ($\textcolor{blue}{\bullet}$) as samples and topic embeddings $\mathbf{t}_{k}$ ($\textcolor{red}{\star}$) as centers with soft-assignment $\pi_{\epsilon, j k}^{*}$. 
+Here ECR pushes $\mathbf{g}_{1}$ and $\mathbf{g}_{2}$ close to $\mathbf{t}_{1}$ and away from $\mathbf{t}_{3}$ and $\mathbf{t}_{5}$.
 **(c)** Sparse linear decoders learn topic embeddings and gene embeddings as well as sparse topic-gene dependencies during reconstruction, thus ensuring model interpretability.
 ## 2 Installation
 Create a new python environment.
 ```bash
-conda create --name $scE^2TM$_env python=3.8.8
-conda activate $scE^2TM$
+conda create --name  scE2TM_env python=3.8.8
+conda activate scE2TM
 ```
 
 Install the dependencies from the provided requirements.txt file.
@@ -35,13 +36,6 @@ The true cell type information is only used for prediction accuracy assessment.
 
 We provide default data (Wang) for users to understand and debug the $scE^2TM$ code.
 
-### Cell type annotation example
-First let's load Muraro dataset. The data can be found in the data folder or [here](https://drive.google.com/drive/folders/1jbqSxacL_IDIZ4uPjq220C9Kv024m9eL).
-
-```bash
-import scanpy as sc
-our_query_adata = sc.read('path_to/Muraro.h5ad') 
-```
 
 ### Training
 
