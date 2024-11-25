@@ -1,0 +1,11 @@
+Wang:
+  learning_rate: 0.001  
+  lr_scheduler: true
+  lr_step_size: 125
+  dropout: 0
+  en1_units: 200
+  epochs: 500
+  batch_size: 512  #大数据集2048
+
+  beta_temp: 0.2 #!!!
+  weight_loss_ECR: 100 #!!!
