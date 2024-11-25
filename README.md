@@ -1,4 +1,4 @@
-# scE$^2$TM: Toward Interpretable Single-Cell Embedding via Topic Modeling
+# $scE^2TM$: Toward Interpretable Single-Cell Embedding via Topic Modeling
 
 The full description of scE$^2$TM and its application on published single cell RNA-seq datasets are available.
 
@@ -6,7 +6,7 @@ The full description of scE$^2$TM and its application on published single cell R
 The repository includes detailed installation instructions and requirements, scripts and demos.
 
 
-## 1 Schematic overview of scE$^2$TM.
+## 1 Schematic overview of $scE^2TM$.
 
 ![](Flow.jpg)
 
@@ -16,8 +16,8 @@ The repository includes detailed installation instructions and requirements, scr
 ## 2 Installation
 Create a new python environment.
 ```bash
-conda create --name scE$^2$TM_env python=3.8.8
-conda activate scE$^2$TM
+conda create --name $scE^2TM$_env python=3.8.8
+conda activate $scE^2TM$
 ```
 
 Install the dependencies from the provided requirements.txt file.
@@ -29,12 +29,19 @@ pip install -r requirements.txt
 
 ### Data format
 
-scE2TM requires the input of cell-by-cell gene matrices, external embedding of cells, and true cell type information in .CSV object format.
+$scE^2TM$ requires the input of cell-by-cell gene matrices, external embedding of cells, and true cell type information in .CSV object format.
 
 The true cell type information is only used for prediction accuracy assessment.
 
-We provide default data (Wang) for users to understand and debug the scE2TM code.
+We provide default data (Wang) for users to understand and debug the $scE^2TM$ code.
 
+### Cell type annotation example
+First let's load Muraro dataset. The data can be found in the data folder or [here](https://drive.google.com/drive/folders/1jbqSxacL_IDIZ4uPjq220C9Kv024m9eL).
+
+```bash
+import scanpy as sc
+our_query_adata = sc.read('path_to/Muraro.h5ad') 
+```
 
 ### Training
 
@@ -43,8 +50,8 @@ python run.py
 ```
 ### tutorial
 
-We provide the tutorial shown in the directory tutorial/{Clustering and Interpretable Evaluation and Pathway Enrichment} for introducing the usage of scE2TM and reproducing the main results of our paper.
+We provide the tutorial shown in the directory tutorial/{Clustering and Interpretable Evaluation and Pathway Enrichment} for introducing the usage of $scE^2TM$ and reproducing the main results of our paper.
 
 ## Reference
 
-If you use `scE$^2$TM` in your work, please cite
+If you use $scE^2TM$ in your work, please cite
