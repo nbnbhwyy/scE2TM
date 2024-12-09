@@ -249,11 +249,11 @@ class TextData:
     def __init__(self, dataset, batch_size, n_neighbors, dataset_name):
         # train_data: NxV
         # test_data: Nxv
-        # word_emeddings: VxD
-        # vocab: V, ordered by word id.
+        # gene_emeddings: VxD
+        # vocab: V, ordered by gene id.
 
         #dataset_path = f'../data/{dataset}'
-        self.train_data, self.test_data, self.train_labels, self.test_labels, self.vocab, self.word_embeddings, data_exa = self.load_data(dataset_name)
+        self.train_data, self.test_data, self.train_labels, self.test_labels, self.vocab, self.gene_embeddings, data_exa = self.load_data(dataset_name)
         self.vocab_size = len(self.vocab)
 
         n_neighbors = n_neighbors #!!!
@@ -317,16 +317,24 @@ class TextData:
         self.test_loader = dataloader_test
 
     def load_data(self, data_name):
-        #name = 'segerstolpe'
+
         name = data_name
         data_path = './data/'
         dataname = name+'_HIGHPRE_5000.csv'
         labelname = name+'_cell_anno.csv'
 
         data = pd.read_csv(data_path+dataname, sep=',', index_col=0)
-        label = list(pd.read_csv(data_path+labelname,sep=',',index_col=0).iloc[:,0])        
+        label = list(pd.read_csv(data_path+labelname,sep=',',index_col=0).iloc[:,0])   
+
+        # name = 'lawlor'
+        # data_path = '//mnt//'
+        # dataname = name+'_HIGHPRE_5000.csv'
+        # labelname = name+'_cell_anno.csv'
+        # data = pd.read_csv(data_path+dataname, sep=',', index_col=0)
+        # label = list(pd.read_csv(data_path+labelname,sep=',',index_col=0).iloc[:,0])   
+
         vocab = list(data.columns)
-        word_embeddings = nn.init.trunc_normal_(torch.zeros(len(vocab), 200), std = 0.02).numpy()
+        gene_embeddings = nn.init.trunc_normal_(torch.zeros(len(vocab), 200), std = 0.02).numpy()
 
         label_np = np.zeros(len(label))
         dicts_label_index = {}
@@ -344,5 +352,6 @@ class TextData:
         test_data = data.values.astype(np.float32)
         test_labels = label_np
 
-        data_exa = torch.from_numpy(pd.read_csv(data_path+'wang.csv', sep=',', index_col=0).values)
-        return train_data, test_data, train_labels, test_labels, vocab, word_embeddings, data_exa
+        data_exa = torch.from_numpy(pd.read_csv(data_path+name+'.csv', sep=',', index_col=0).values)
+       # data_exa = torch.from_numpy(pd.read_csv('/mnt/'+name+'.csv', sep=',', index_col=0).values)
+        return train_data, test_data, train_labels, test_labels, vocab, gene_embeddings, data_exa

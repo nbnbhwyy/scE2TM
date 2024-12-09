@@ -81,36 +81,36 @@ def mine_nearest_neighbors(features, topk=50):
     print("Nearest neighbors computed.")
     return indices[:, 1:]
 
-def ext_topic_words(beta, vocab, num_top_word):
+def ext_topic_genes(beta, vocab, num_top_gene):
     topic_str_list = list()
     for i, topic_dist in enumerate(beta):
-        topic_words = np.array(vocab)[np.argsort(topic_dist)][:-(num_top_word + 1):-1]
-        topic_str = ' '.join(topic_words)
+        topic_genes = np.array(vocab)[np.argsort(topic_dist)][:-(num_top_gene + 1):-1]
+        topic_str = ' '.join(topic_genes)
         topic_str_list.append(topic_str)
     return topic_str_list
 
-def compute_coherence(doc_word, topic_word, N, dicts_gene_tran):
+def compute_coherence(doc_gene, topic_gene, N, dicts_gene_tran):
     # print('computing coherence ...')    
-    topic_size, word_size = np.shape(topic_word)
-    doc_size = np.shape(doc_word)[0]
-    # find top words'index of each topic
+    topic_size, gene_size = np.shape(topic_gene)
+    doc_size = np.shape(doc_gene)[0]
+    # find top genes'index of each topic
     topic_list = []
     for topic_idx in range(topic_size):
-        top_word_idx = np.argpartition(topic_word[topic_idx, :], -N)[-N:]
-        topic_list.append(top_word_idx)
+        top_gene_idx = np.argpartition(topic_gene[topic_idx, :], -N)[-N:]
+        topic_list.append(top_gene_idx)
     #print(topic_list)
     # compute coherence of each topic
     sum_coherence_score = 0.0
     for i in range(topic_size):
-        word_array = topic_list[i]
+        gene_array = topic_list[i]
         sum_score = 0.0
         for n in range(N):
-            if word_array[n] in dicts_gene_tran:
-                flag_n = doc_word[:, dicts_gene_tran[word_array[n]]] > 0
+            if gene_array[n] in dicts_gene_tran:
+                flag_n = doc_gene[:, dicts_gene_tran[gene_array[n]]] > 0
                 p_n = np.sum(flag_n) / doc_size
                 for l in range(n + 1, N):
-                    if word_array[l] in dicts_gene_tran:
-                        flag_l = doc_word[:, dicts_gene_tran[word_array[l]]] > 0
+                    if gene_array[l] in dicts_gene_tran:
+                        flag_l = doc_gene[:, dicts_gene_tran[gene_array[l]]] > 0
                         p_l = np.sum(flag_l)
                         p_nl = np.sum(flag_n * flag_l)
                         if p_n * p_l * p_nl > 0:
@@ -176,7 +176,7 @@ class Runner:
         return optimizer
 
 
-    def evaluate(self, test_data, vocab, num_top_word, test_label):
+    def evaluate(self, test_data, vocab, num_top_gene, test_label):
         with torch.no_grad():
             self.model.eval()
             beta = self.model.get_beta()
@@ -184,9 +184,9 @@ class Runner:
             beta = beta.detach().cpu().numpy()
             theta = self.test(test_data)
 
-            topic_str_list = ext_topic_words(beta, vocab, num_top_word)
+            topic_str_list = ext_topic_genes(beta, vocab, num_top_gene)
             TD = TD_eva(topic_str_list)
-            print(f"===>TD_T{num_top_word}: {TD:.5f}")
+            print(f"===>TD_T{num_top_gene}: {TD:.5f}")
     
             kegg = gp.read_gmt(path="/mnt/rao/home/chenhg/Methods/ECRTM-Singlecell/data/c5.all.v2023.2.Hs.symbols.gmt")
             gene_set = []
@@ -206,12 +206,12 @@ class Runner:
                 if value in dicts_gene_index:
                     dicts_gene_tran[index] = dicts_gene_index[value]
 
-            TC = compute_coherence(bg_data, beta, num_top_word, dicts_gene_tran)
-            print(f"===>TC_T{num_top_word}: {TC:.5f}")
-            pd.DataFrame(beta).to_csv('./output/'+self.args.scdataset_name+'/'+self.args.scdataset_name+'_tg'+'.csv') 
-            pd.DataFrame(theta).to_csv('./output/'+self.args.scdataset_name+'/'+self.args.scdataset_name+'_embedding'+'.csv') 
-            pd.DataFrame(topic_embedding.detach().cpu().numpy()).to_csv('./output/'+self.args.scdataset_name+'/'+self.args.scdataset_name+'_topic_embedding'+'.csv') 
-            pd.DataFrame(gene_embedding.detach().cpu().numpy()).to_csv('./output/'+self.args.scdataset_name+'/'+self.args.scdataset_name+'_gene_embedding'+'.csv') 
+            TC = compute_coherence(bg_data, beta, num_top_gene, dicts_gene_tran)
+            print(f"===>TC_T{num_top_gene}: {TC:.5f}")
+            # pd.DataFrame(beta).to_csv('./output/'+self.args.scdataset_name+'/'+self.args.scdataset_name+'_tg'+'.csv') 
+            # pd.DataFrame(theta).to_csv('./output/'+self.args.scdataset_name+'/'+self.args.scdataset_name+'_embedding'+'.csv') 
+            # pd.DataFrame(topic_embedding.detach().cpu().numpy()).to_csv('./output/'+self.args.scdataset_name+'/'+self.args.scdataset_name+'_topic_embedding'+'.csv') 
+            # pd.DataFrame(gene_embedding.detach().cpu().numpy()).to_csv('./output/'+self.args.scdataset_name+'/'+self.args.scdataset_name+'_gene_embedding'+'.csv') 
             adata = sc.AnnData(theta)
             adata.obs['cell_type'] = test_label
             sc.pp.pca(adata)
@@ -242,7 +242,7 @@ class Runner:
         lr_scheduler = StepLR(optimizer, step_size=self.args.lr_step_size, gamma = 0.5, verbose=True) 
         return lr_scheduler
 
-    def train(self, data_loader, test_data, vocab, num_top_word, test_label):
+    def train(self, data_loader, test_data, vocab, num_top_gene, test_label):
         optimizer = self.make_optimizer()
        # theta = None
         if "lr_scheduler" in self.args:
@@ -274,12 +274,12 @@ class Runner:
             output_log = f'Epoch: {epoch:03d}'
             for key in loss_rst_dict:
                 output_log += f' {key}: {loss_rst_dict[key] / data_size :.3f}'
-
+            print(output_log)
             if epoch%100 == 0:
                 # print(epoch)
                 end = time.time()
                 print("Method   time "+str(end - start))
-                self.theta = self.evaluate(test_data, vocab, num_top_word, test_label)
+                self.theta = self.evaluate(test_data, vocab, num_top_gene, test_label)
 
         beta = self.model.get_beta().detach().cpu().numpy()
 
