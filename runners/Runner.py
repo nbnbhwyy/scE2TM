@@ -2,7 +2,7 @@ import numpy as np
 import torch
 from torch.optim.lr_scheduler import StepLR
 from collections import defaultdict
-from models.ECRTM import ECRTM
+from models.scE2TM import scE2TM
 from sklearn import metrics
 from sklearn.feature_extraction.text import CountVectorizer
 import scanpy as sc
