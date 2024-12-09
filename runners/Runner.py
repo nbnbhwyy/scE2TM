@@ -160,7 +160,7 @@ def classification_metric(data, labels):
 class Runner:
     def __init__(self, args):
         self.args = args
-        self.model = ECRTM(args)
+        self.model = scE2TM(args)
         self.theta = None
         self.dataloder = None
         if torch.cuda.is_available():
