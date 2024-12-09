@@ -73,7 +73,7 @@ class ClusterHead(nn.Module):
             logit_image = F.softmax(logit_image, dim=1)
         return logit_image
 
-class ECRTM(nn.Module):
+class scE2TM(nn.Module):
     def __init__(self, args):
         super().__init__()
         self.device = 0
