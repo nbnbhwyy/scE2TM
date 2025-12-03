@@ -10,9 +10,8 @@ The repository includes detailed installation instructions and requirements, scr
 
 ![](Flow.jpg)
 
-**(a)** To better collaborate the information of different modalities, clusters and topic heads are trained based on mutually refined neighborhood information by encouraging consistent clustering assignments of mutual nearest neighbors of the corresponding cells of different modalities in the embedding space.. 
-**(b)**ECR clusters gene embeddings g_j (•) as samples and topic embeddings t_k (★) as centers with soft assignment π*_{ε,jk}.  
-Here, ECR pushes g_1 and g_2 close to t_1, and away from t_3 and t_5$.
+**(a)** To better collaborate the information of different modalities, clusters and topic heads are trained based on mutually refined neighborhood information by encouraging consistent clustering assignments of mutual nearest neighbors of the corresponding cells of different modalities in the embedding space. 
+**(b)**ECR clusters gene embeddings g_j (•) as samples and topic embeddings t_k (★) as centers with soft assignment π*_{ε,jk}. Here, ECR pushes g_1 and g_2 close to t_1, and away from t_3 and t_5$.
 **(c)** Sparse linear decoders learn topic embeddings and gene embeddings as well as sparse topic-gene dependencies during reconstruction, thus ensuring model interpretability.
 ## 2 Installation
 Create a new python environment.
