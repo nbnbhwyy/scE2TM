@@ -43,7 +43,7 @@ python run.py
 ```
 ### Tutorial
 
-We provide three tutorials in the `tutorial` directory that introduce the usage of $scE^2TM$ and reproduce the main quantitative results of our paper:
+We provide three tutorials in the `tutorial` directory that introduce the usage of $scE^2TM$ and reproduce the main quantitative results:
 
 - [Clustering and Interpretable Evaluation](tutorial/Clustering%20and%20Interpretable%20Evaluation)
 - [Pathway Enrichment](tutorial/Pathway%20Enrichment)
