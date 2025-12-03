@@ -24,7 +24,7 @@ Install the dependencies from the provided requirements.txt file.
 ```bash
 pip install -r requirements.txt
 ```
-
+Installation typically completes in approximately 1.5 hours.
 ## 3 Usage
 
 ### Data format
