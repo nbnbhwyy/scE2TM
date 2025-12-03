@@ -1,6 +1,6 @@
 # $scE^2TM$: Toward Interpretable Single-Cell Embedding via Topic Modeling
 
-The full description of scE $^2$ TM and its application on published single cell RNA-seq datasets are available.
+The full description of scE$^2$TM and its application on published single cell RNA-seq datasets are available.
 
 
 The repository includes detailed installation instructions and requirements, scripts and demos.
