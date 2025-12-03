@@ -41,6 +41,8 @@ We provide default data (Wang) for users to understand and debug the $scE^2TM$ c
 ```bash
 python run.py
 ```
+On the provided example dataset, the demo completes in about one minute.
+
 ### Tutorial
 
 We provide three tutorials in the `tutorial` directory that introduce the usage of $scE^2TM$ and reproduce the main quantitative results:
