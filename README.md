@@ -49,3 +49,7 @@ We provide the tutorial shown in the directory tutorial/{Clustering and Interpre
 ## Reference
 
 If you use $scE^2TM$ in your work, please cite
+
+## License
+
+This project is licensed under the MIT License.
