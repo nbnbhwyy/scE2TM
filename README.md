@@ -1,6 +1,6 @@
 # $scE^2TM$: Toward Interpretable Single-Cell Embedding via Topic Modeling
 
-The full description of scE$^2$TM and its application on published single cell RNA-seq datasets are available.
+The full description of $scE^2TM$ and its application on published single cell RNA-seq datasets are available.
 
 
 The repository includes detailed installation instructions and requirements, scripts and demos.
@@ -10,9 +10,8 @@ The repository includes detailed installation instructions and requirements, scr
 
 ![](Flow.jpg)
 
-**(a)** To better collaborate the information of different modalities, clusters and topic heads are trained based on mutually refined neighborhood information by encouraging consistent clustering assignments of mutual nearest neighbors of the corresponding cells of different modalities in the embedding space.. 
-**(b)** ECR clusters gene embeddings $\mathbf{g}_{j}$ ($\textcolor{blue}{\bullet}$) as samples and topic embeddings $\mathbf{t}_{k}$ ($\textcolor{red}{\star}$) as centers with soft-assignment $\pi_{\epsilon, j k}^{*}$. 
-Here ECR pushes $\mathbf{g}_{1}$ and $\mathbf{g}_{2}$ close to $\mathbf{t}_{1}$ and away from $\mathbf{t}_{3}$ and $\mathbf{t}_{5}$.
+**(a)** To better collaborate the information of different modalities, clusters and topic heads are trained based on mutually refined neighborhood information by encouraging consistent clustering assignments of mutual nearest neighbors of the corresponding cells of different modalities in the embedding space. 
+**(b)** ECR clusters gene embeddings $g_j$ (•) as samples and topic embeddings $t_k$ (★) as centers with soft assignment $\pi^{*}_{\epsilon,jk}$. Here, ECR pushes $g_1$ and $g_2$ close to $t_1$, and away from $t_3$ and $t_5$.
 **(c)** Sparse linear decoders learn topic embeddings and gene embeddings as well as sparse topic-gene dependencies during reconstruction, thus ensuring model interpretability.
 ## 2 Installation
 Create a new python environment.
@@ -42,10 +41,18 @@ We provide default data (Wang) for users to understand and debug the $scE^2TM$ c
 ```bash
 python run.py
 ```
-### tutorial
+### Tutorial
 
-We provide the tutorial shown in the directory tutorial/{Clustering and Interpretable Evaluation and Pathway Enrichment} for introducing the usage of $scE^2TM$ and reproducing the main results of our paper.
+We provide three tutorials in the `tutorial` directory that introduce the usage of $scE^2TM$ and reproduce the main quantitative results:
+
+- [Clustering and Interpretable Evaluation](tutorial/Clustering-and-Interpretable-Evaluation.ipynb)
+- [Pathway Enrichment](tutorial/Pathway-Enrichment.ipynb)
+- [Topic gene embedding](tutorial/Topic-gene-embedding.ipynb)
 
 ## Reference
 
 If you use $scE^2TM$ in your work, please cite
+
+## License
+
+This project is licensed under the MIT License.
