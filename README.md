@@ -1,6 +1,6 @@
 # $scE^2TM$: Toward Interpretable Single-Cell Embedding via Topic Modeling
 
-The full description of scE2TM and its application on published single cell RNA-seq datasets are available.
+The full description of $scE^2TM$ and its application on published single cell RNA-seq datasets are available.
 
 
 The repository includes detailed installation instructions and requirements, scripts and demos.
@@ -42,9 +42,13 @@ We provide default data (Wang) for users to understand and debug the $scE^2TM$ c
 ```bash
 python run.py
 ```
-### tutorial
+### Tutorial
 
-We provide the tutorial shown in the directory tutorial/{Clustering and Interpretable Evaluation and Pathway Enrichment} for introducing the usage of $scE^2TM$ and reproducing the main results of our paper.
+We provide three tutorials in the `tutorial` directory that introduce the usage of $scE^2TM$ and reproduce the main quantitative results of our paper:
+
+- [Clustering and Interpretable Evaluation](tutorial/Clustering%20and%20Interpretable%20Evaluation)
+- [Pathway Enrichment](tutorial/Pathway%20Enrichment)
+- [Topic gene embedding](tutorial/Topic%20gene%20embedding)
 
 ## Reference
 
