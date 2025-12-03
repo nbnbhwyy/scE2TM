@@ -45,9 +45,9 @@ python run.py
 
 We provide three tutorials in the `tutorial` directory that introduce the usage of $scE^2TM$ and reproduce the main quantitative results:
 
-- [Clustering and Interpretable Evaluation](tutorial/Clustering%20and%20Interpretable%20Evaluation)
-- [Pathway Enrichment](tutorial/Pathway%20Enrichment)
-- [Topic gene embedding](tutorial/Topic%20gene%20embedding)
+- [Clustering and Interpretable Evaluation](tutorial/Clustering-and-Interpretable-Evaluation.ipynb)
+- [Pathway Enrichment](tutorial/Pathway-Enrichment.ipynb)
+- [Topic gene embedding](tutorial/Topic-gene-embedding.ipynb)
 
 ## Reference
 
