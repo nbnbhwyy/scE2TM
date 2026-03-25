@@ -10,7 +10,7 @@ def make_dir(path):
 
 def update_args(args, path):
     with open(path) as file:
-        config = yaml.safe_load(file)[args.scdataset_name]
+        config = yaml.safe_load(file)[args.dataset_name]
         if config:
             args = vars(args)
             args.update(config)

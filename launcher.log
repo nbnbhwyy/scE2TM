@@ -1,0 +1,46 @@
+nohup: ignoring input
+
+🚀 Running scdataset = Bach
+CMD: python /mnt/rao/home/chenhg/Methods/ECRTM-Singlecell/ECRTM/run.py --dataset 20NG --model ECRTM --config /mnt/rao/home/chenhg/Methods/ECRTM-Singlecell/ECRTM/configs/model/ECRTM_20NG.yaml --num_topic 100 --scdataset Bach --test_index 1 --perturbation 0.8 --tac_weight 1
+LOG: /mnt/rao/home/chenhg/Methods/ECRTM-Singlecell/ECRTM/output_new/log/20NG_ECRTM_Bach_0.8change.log
+✅ Finished Bach, log saved to /mnt/rao/home/chenhg/Methods/ECRTM-Singlecell/ECRTM/output_new/log/20NG_ECRTM_Bach_0.8change.log
+
+🚀 Running scdataset = hrvatin
+CMD: python /mnt/rao/home/chenhg/Methods/ECRTM-Singlecell/ECRTM/run.py --dataset 20NG --model ECRTM --config /mnt/rao/home/chenhg/Methods/ECRTM-Singlecell/ECRTM/configs/model/ECRTM_20NG.yaml --num_topic 100 --scdataset hrvatin --test_index 1 --perturbation 0.8 --tac_weight 1
+LOG: /mnt/rao/home/chenhg/Methods/ECRTM-Singlecell/ECRTM/output_new/log/20NG_ECRTM_hrvatin_0.8change.log
+✅ Finished hrvatin, log saved to /mnt/rao/home/chenhg/Methods/ECRTM-Singlecell/ECRTM/output_new/log/20NG_ECRTM_hrvatin_0.8change.log
+
+🚀 Running scdataset = tmuris
+CMD: python /mnt/rao/home/chenhg/Methods/ECRTM-Singlecell/ECRTM/run.py --dataset 20NG --model ECRTM --config /mnt/rao/home/chenhg/Methods/ECRTM-Singlecell/ECRTM/configs/model/ECRTM_20NG.yaml --num_topic 100 --scdataset tmuris --test_index 1 --perturbation 0.8 --tac_weight 1
+LOG: /mnt/rao/home/chenhg/Methods/ECRTM-Singlecell/ECRTM/output_new/log/20NG_ECRTM_tmuris_0.8change.log
+✅ Finished tmuris, log saved to /mnt/rao/home/chenhg/Methods/ECRTM-Singlecell/ECRTM/output_new/log/20NG_ECRTM_tmuris_0.8change.log
+
+🚀 Running scdataset = karagiannis
+CMD: python /mnt/rao/home/chenhg/Methods/ECRTM-Singlecell/ECRTM/run.py --dataset 20NG --model ECRTM --config /mnt/rao/home/chenhg/Methods/ECRTM-Singlecell/ECRTM/configs/model/ECRTM_20NG.yaml --num_topic 100 --scdataset karagiannis --test_index 1 --perturbation 0.8 --tac_weight 1
+LOG: /mnt/rao/home/chenhg/Methods/ECRTM-Singlecell/ECRTM/output_new/log/20NG_ECRTM_karagiannis_0.8change.log
+✅ Finished karagiannis, log saved to /mnt/rao/home/chenhg/Methods/ECRTM-Singlecell/ECRTM/output_new/log/20NG_ECRTM_karagiannis_0.8change.log
+
+🚀 Running scdataset = segerstolpe
+CMD: python /mnt/rao/home/chenhg/Methods/ECRTM-Singlecell/ECRTM/run.py --dataset 20NG --model ECRTM --config /mnt/rao/home/chenhg/Methods/ECRTM-Singlecell/ECRTM/configs/model/ECRTM_20NG.yaml --num_topic 100 --scdataset segerstolpe --test_index 1 --perturbation 0.8 --tac_weight 1
+LOG: /mnt/rao/home/chenhg/Methods/ECRTM-Singlecell/ECRTM/output_new/log/20NG_ECRTM_segerstolpe_0.8change.log
+✅ Finished segerstolpe, log saved to /mnt/rao/home/chenhg/Methods/ECRTM-Singlecell/ECRTM/output_new/log/20NG_ECRTM_segerstolpe_0.8change.log
+
+🚀 Running scdataset = Qx_Limb_Muscle
+CMD: python /mnt/rao/home/chenhg/Methods/ECRTM-Singlecell/ECRTM/run.py --dataset 20NG --model ECRTM --config /mnt/rao/home/chenhg/Methods/ECRTM-Singlecell/ECRTM/configs/model/ECRTM_20NG.yaml --num_topic 100 --scdataset Qx_Limb_Muscle --test_index 1 --perturbation 0.8 --tac_weight 1
+LOG: /mnt/rao/home/chenhg/Methods/ECRTM-Singlecell/ECRTM/output_new/log/20NG_ECRTM_Qx_Limb_Muscle_0.8change.log
+✅ Finished Qx_Limb_Muscle, log saved to /mnt/rao/home/chenhg/Methods/ECRTM-Singlecell/ECRTM/output_new/log/20NG_ECRTM_Qx_Limb_Muscle_0.8change.log
+
+🚀 Running scdataset = lawlor
+CMD: python /mnt/rao/home/chenhg/Methods/ECRTM-Singlecell/ECRTM/run.py --dataset 20NG --model ECRTM --config /mnt/rao/home/chenhg/Methods/ECRTM-Singlecell/ECRTM/configs/model/ECRTM_20NG.yaml --num_topic 100 --scdataset lawlor --test_index 1 --perturbation 0.8 --tac_weight 1
+LOG: /mnt/rao/home/chenhg/Methods/ECRTM-Singlecell/ECRTM/output_new/log/20NG_ECRTM_lawlor_0.8change.log
+✅ Finished lawlor, log saved to /mnt/rao/home/chenhg/Methods/ECRTM-Singlecell/ECRTM/output_new/log/20NG_ECRTM_lawlor_0.8change.log
+
+🚀 Running scdataset = pollen
+CMD: python /mnt/rao/home/chenhg/Methods/ECRTM-Singlecell/ECRTM/run.py --dataset 20NG --model ECRTM --config /mnt/rao/home/chenhg/Methods/ECRTM-Singlecell/ECRTM/configs/model/ECRTM_20NG.yaml --num_topic 100 --scdataset pollen --test_index 1 --perturbation 0.8 --tac_weight 1
+LOG: /mnt/rao/home/chenhg/Methods/ECRTM-Singlecell/ECRTM/output_new/log/20NG_ECRTM_pollen_0.8change.log
+✅ Finished pollen, log saved to /mnt/rao/home/chenhg/Methods/ECRTM-Singlecell/ECRTM/output_new/log/20NG_ECRTM_pollen_0.8change.log
+
+🚀 Running scdataset = orozco
+CMD: python /mnt/rao/home/chenhg/Methods/ECRTM-Singlecell/ECRTM/run.py --dataset 20NG --model ECRTM --config /mnt/rao/home/chenhg/Methods/ECRTM-Singlecell/ECRTM/configs/model/ECRTM_20NG.yaml --num_topic 100 --scdataset orozco --test_index 1 --perturbation 0.8 --tac_weight 1
+LOG: /mnt/rao/home/chenhg/Methods/ECRTM-Singlecell/ECRTM/output_new/log/20NG_ECRTM_orozco_0.8change.log
+✅ Finished orozco, log saved to /mnt/rao/home/chenhg/Methods/ECRTM-Singlecell/ECRTM/output_new/log/20NG_ECRTM_orozco_0.8change.log
