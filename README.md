@@ -145,7 +145,7 @@ We provide tutorials in the `tutorial/` directory covering both basic usage and 
 | `Consistency between rare types and topics.ipynb` | Evaluate how well learned topics capture rare cell populations and their consistency with rare cell types. |
 | `Pathway Enrichment.ipynb` | Perform pathway enrichment analysis on learned topics. |
 | `Topic gene embedding.ipynb` | Visualize and analyze topic-gene embeddings. |
-| `Topic perturbation experiment.ipynb` | Analyze the biological effects of perturbing topic intensities and evaluate topic-specific perturbation behavior. |
+| `Topic perturbation experiment.ipynb` | Analyze the biological effects of perturbing topic intensities. |
 
 ---
 
@@ -203,3 +203,4 @@ This project is licensed under the MIT License. See [LICENSE.txt](LICENSE.txt) f
 For questions or support, please open an issue on GitHub or contact:
 
 - 13247702278@163.com
+s
