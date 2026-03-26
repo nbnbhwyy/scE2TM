@@ -1,27 +1,31 @@
 # $scE^2TM$: Toward Interpretable Single-Cell Embedding via Topic Modeling
 
 [![PyPI version](https://badge.fury.io/py/scE2TM.svg)](https://badge.fury.io/py/scE2TM)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE.txt)
 
-The full description of $scE^2TM$ and its application on published single-cell RNA-seq datasets are available in our paper.
+The full description of $scE^2TM$ and its application to published single-cell RNA-seq datasets are available in our paper.
+
+---
 
 ## 📖 Overview
 
-$scE^2TM$ is a novel framework for interpretable single-cell embedding learning via topic modeling. It integrates multi-modal information and learns sparse topic-gene dependencies for improved interpretability.
+$scE^2TM$ is a framework for interpretable single-cell embedding learning via topic modeling. It integrates external single-cell foundation-model embeddings with gene expression data and learns sparse topic-gene dependencies for improved interpretability.
 
-### 1. Schematic overview of $scE^2TM$
+### Schematic overview of $scE^2TM$
 
 ![](Flow.jpg)
 
-**(a)** To better collaborate the information of different modalities, clusters and topic heads are trained based on mutually refined neighborhood information by encouraging consistent clustering assignments of mutual nearest neighbors of the corresponding cells of different modalities in the embedding space.
+**(a)** To better collaborate information from different modalities, clusters and topic heads are trained based on mutually refined neighborhood information by encouraging consistent clustering assignments of mutual nearest neighbors of corresponding cells across modalities in the embedding space.
 
-**(b)** ECR clusters gene embeddings $g_j$ (•) as samples and topic embeddings $t_k$ (★) as centers with soft assignment $\pi^{*}_{\epsilon,jk}$. Here, ECR pushes $g_1$ and $g_2$ close to $t_1$, and away from $t_3$ and $t_5$.
+**(b)** ECR clusters gene embeddings $g_j$ (•) as samples and topic embeddings $t_k$ (★) as centers with soft assignment $\pi^{*}_{\epsilon,jk}$.
 
-**(c)** Sparse linear decoders learn topic embeddings and gene embeddings as well as sparse topic-gene dependencies during reconstruction, thus ensuring model interpretability.
+**(c)** Sparse linear decoders learn topic embeddings, gene embeddings, and sparse topic-gene dependencies during reconstruction, thus ensuring model interpretability.
+
+---
 
 ## 🔧 Installation
 
-> **Note**: The complete installation process (including environment setup and dependency installation) takes approximately **1 hour**.
+> **Note**: The complete installation process, including environment setup and dependency installation, typically takes around **1–1.5 hours**.
 
 ### 1. Create a conda environment
 
@@ -33,80 +37,72 @@ conda activate scE2TM_env
 ### 2. Install PyTorch
 
 ```bash
-pip install torch==1.9.1+cu102 torchvision==0.10.1+cu102 torchaudio==0.9.1 -f https://download.pytorch.org/whl/torch_stable.html
+pip install torch==1.9.1+cu102 torchvision==0.10.1+cu102 torchaudio==0.9.1 \
+-f https://download.pytorch.org/whl/torch_stable.html
 ```
 
 ### 3. Install $scE^2TM$
 
-You can install $scE^2TM$ using either of the following methods:
+You can install $scE^2TM$ in either of the following ways.
 
-#### Option A: Install from PyPI (Recommended for users)
+#### Option A: Install from PyPI (recommended for users)
 
 ```bash
 pip install scE2TM
 ```
 
-This will automatically install all required dependencies.
+This installs the package and required dependencies automatically.
 
-#### Option B: Install from source (Recommended for developers)
+#### Option B: Install from source (recommended for developers)
 
 ```bash
-# Clone the repository
 git clone https://github.com/nbnbhwyy/scE2TM.git
 cd scE2TM
-
-# Install dependencies
 pip install -r requirements.txt
 ```
-<<<<<<< HEAD
+
+---
 
 ## 🚀 Quick Start
-=======
-Installation typically completes in approximately 1.5 hours.
-## 3 Usage
->>>>>>> 23659e43373cf98fd9a55cf07c85e5a7aabe158e
 
-### Data Format
+### Data format
 
-$scE^2TM$ requires the following input files in CSV format:
+$scE^2TM$ expects the following input files in CSV format:
+
 - **Gene expression matrix**: cell-by-gene matrix (`*_HIGHPRE.csv`)
-- **Cell type annotations**: ground truth labels (`*_cell_anno.csv`) *used only for evaluation*
-- **Foundation model embeddings**: pre-trained cell embeddings (`*.csv`)
+- **Cell type annotations**: ground-truth labels (`*_cell_anno.csv`) *(used only for evaluation)*
+- **Foundation-model embeddings**: pre-trained cell embeddings (`*.csv`)
 
-We provide the **Wang** dataset as a default example for users to understand and debug the code.
+We provide the **Wang** dataset as a default example to help users understand and debug the code.
 
-### Running $scE^2TM$
+### Run $scE^2TM$
 
-#### Method 1: Using the source code
+#### Basic run
 
-After installing from source, you can run the model with various options:
-
-**Basic run with default parameters:**
 ```bash
 python run.py
 ```
-<<<<<<< HEAD
-=======
-On the provided example dataset, the demo completes in about one minute.
 
-### Tutorial
->>>>>>> 23659e43373cf98fd9a55cf07c85e5a7aabe158e
+On the provided Wang example dataset, the demo typically finishes in about **one minute**.
 
-**Specify dataset and number of topics:**
+#### Specify dataset and number of topics
+
 ```bash
 python run.py --dataset_name Wang --num_topics 50
 ```
 
-**Choose GPU device (use -1 for CPU):**
+#### Choose GPU device (`-1` for CPU)
+
 ```bash
-# Run on GPU 0 (default)
+# Run on GPU 0
 python run.py --gpu_id 0
 
 # Run on CPU
 python run.py --gpu_id -1
 ```
 
-**Full parameter example:**
+#### Full parameter example
+
 ```bash
 python run.py \
     --dataset_name Wang \
@@ -119,17 +115,15 @@ python run.py \
     --output_dir ./output
 ```
 
-#### Method 2: Using the PyPI package
-
-We provide an interactive tutorial notebook that demonstrates the usage:
+#### Jupyter demo
 
 ```bash
 jupyter notebook scE2TM_demo_on_Wang_dataset.ipynb
 ```
 
-### Output Files
+### Output files
 
-After successful execution, the following files will be saved in the `output/Wang/` directory:
+After successful execution, the following files are saved in `output/Wang/`:
 
 | File | Description |
 |------|-------------|
@@ -137,22 +131,75 @@ After successful execution, the following files will be saved in the `output/Wan
 | `Wang_topic_distribution.csv` | Cell-topic distribution (theta) |
 | `Wang_topic_embedding.csv` | Topic embeddings |
 | `Wang_gene_embedding.csv` | Gene embeddings |
-| `Wang_tg.csv` | Topic-gene distribution (beta) |
+| `Wang_tg.csv` | Topic-gene matrix (beta) |
+
+---
 
 ## 📚 Tutorials
 
-We provide three comprehensive tutorials in the `tutorial/` directory that introduce the usage of $scE^2TM$ and reproduce the main quantitative results:
+We provide tutorials in the `tutorial/` directory covering both basic usage and the main downstream analyses used in the paper.
 
 | Tutorial | Description |
 |----------|-------------|
-| [Clustering and Interpretable Evaluation](tutorial/Clustering-and-Interpretable-Evaluation.ipynb) | Evaluate clustering performance and interpret topic-gene relationships |
-| [Pathway Enrichment](tutorial/Pathway-Enrichment.ipynb) | Enrichment analysis on learned topics to identify biological pathways |
-| [Topic Gene Embedding](tutorial/Topic-gene-embedding.ipynb) | Visualize and analyze topic-gene embeddings |
+| `Clustering and Interpretable Evaluation.ipynb` | Evaluate clustering performance and interpretability of the learned topics. |
+| `Consistency between rare types and topics.ipynb` | Evaluate how well learned topics capture rare cell populations and their consistency with rare cell types. |
+| `Pathway Enrichment.ipynb` | Perform pathway enrichment analysis on learned topics. |
+| `Topic gene embedding.ipynb` | Visualize and analyze topic-gene embeddings. |
+| `Topic perturbation experiment.ipynb` | Analyze the biological effects of perturbing topic intensities and evaluate topic-specific perturbation behavior. |
+
+---
+
+## ⚖️ Baseline Tutorials
+
+We also provide tutorials for several relevant baselines in the `baseline/` directory:
+
+- `scVI.ipynb`
+- `scVI-LD.ipynb`
+- `scETM.ipynb`
+- `d-scIGM.ipynb`
+
+These notebooks are designed to help users reproduce baseline results in a consistent environment. After setting up the main $scE^2TM$ environment, each baseline tutorial explains:
+
+1. any additional package installation required for that baseline,
+2. how to run the method on the provided example dataset, and
+3. how to obtain outputs for comparison with $scE^2TM$.
+
+In general, the workflow is:
+
+```bash
+conda activate scE2TM_env
+```
+
+Then open the corresponding notebook in `baseline/` and follow the dependency installation and execution instructions provided there.
+
+---
+
+## 📁 Repository Structure
+
+```text
+scE2TM/
+├── baseline/      # Baseline tutorials: scVI, scVI-LD, scETM, d-scIGM
+├── configs/       # Configuration files
+├── data/          # Example datasets and processed inputs
+├── models/        # Core model implementations
+├── runners/       # Training / running utilities
+├── tutorial/      # scE2TM tutorials and downstream analysis notebooks
+├── utils/         # Utility functions
+├── run.py         # Main entry point
+├── requirements.txt
+└── LICENSE.txt
+```
+
+---
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License. See [LICENSE.txt](LICENSE.txt) for details.
+
+---
 
 ## 📬 Contact
 
-For questions and support, please open an issue on GitHub or contact: [13247702278@163.com](mailto:13247702278@163.com)
+For questions or support, please open an issue on GitHub or contact:
+
+- 13247702278@163.com
