@@ -101,7 +101,7 @@ We provide the **Wang** dataset as a default example to help users understand an
 python run.py
 ```
 
-On the provided Wang example dataset, the demo typically finishes in about **one minute**.
+On the provided Wang example dataset, the demo typically finishes within 1–2 minutes on an NVIDIA RTX 3090 GPU. We also thank the anonymous reviewer for testing the CPU-only workflow on macOS; based on the reviewer’s report, the same example may require approximately 10–15 minutes on CPU-only systems depending on hardware and software configuration.
 
 #### Specify dataset and number of topics
 
