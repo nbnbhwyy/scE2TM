@@ -36,30 +36,48 @@ conda activate scE2TM_env
 
 ### 2. Install PyTorch
 
+Choose the command that matches your hardware.
+
+### For GPU users
+
 ```bash
 pip install torch==1.9.1+cu102 torchvision==0.10.1+cu102 torchaudio==0.9.1 \
--f https://download.pytorch.org/whl/torch_stable.html
+    -f https://download.pytorch.org/whl/torch_stable.html
 ```
 
-### 3. Install $scE^2TM$
-
-You can install $scE^2TM$ in either of the following ways.
-
-#### Option A: Install from PyPI (recommended for users)
+### For CPU users
 
 ```bash
-pip install scE2TM
+pip install torch==1.9.1 torchvision==0.10.1 torchaudio==0.9.1 \
+    -f https://download.pytorch.org/whl/torch_stable.html
 ```
 
-This installs the package and required dependencies automatically.
+---
 
-#### Option B: Install from source (recommended for developers)
+## 3. Install scE²TM
+
+### Option A: Install from PyPI (recommended for users)
+
+| Hardware | Command |
+|----------|----------|
+| CPU | `pip install scE2TM` |
+| GPU | `pip install scE2TM[gpu]` |
+
+---
+
+### Option B: Install from source (recommended for developers)
 
 ```bash
 git clone https://github.com/nbnbhwyy/scE2TM.git
 cd scE2TM
-pip install -r requirements.txt
 ```
+
+Then install dependencies based on your hardware:
+
+| Hardware | Command |
+|----------|----------|
+| CPU | `pip install -r requirements-cpu.txt` |
+| GPU | `pip install -r requirements-gpu.txt` |
 
 ---
 
