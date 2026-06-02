@@ -126,7 +126,8 @@ python run.py \
     --tac_weight 1.0 \
     --gpu_id 0 \
     --data_dir ./data \
-    --output_dir ./output
+    --output_dir ./output \
+    --use_labels
 ```
 
 #### Jupyter demo
@@ -149,7 +150,7 @@ results = scE2TM(
     output_dir='./output',        # where to save outputs
     num_topics=100,               # number of topics (K)
     num_neighbors=15,             # number of neighbors for graph construction
-    weight_loss_ECR=100.0,        # weight for the ECR loss (default 100.0)
+    weight_loss_ECR=20.0,        # weight for the ECR loss
     epochs=500,                   # total training epochs
     gpu_id=0,                     # GPU device; use -1 for CPU
 )
@@ -160,7 +161,7 @@ results = scE2TM(
     use_labels=True,              # enable label‑dependent metrics
     num_topics=100,
     num_neighbors=15,
-    weight_loss_ECR=100.0,
+    weight_loss_ECR=20.0,
     epochs=500,
     gpu_id=0,
 )
