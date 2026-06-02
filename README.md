@@ -36,19 +36,8 @@ conda activate scE2TM_env
 
 ### 2. Install PyTorch
 
-Choose the command that matches your hardware.
-
-### For GPU users
-
 ```bash
 pip install torch==1.9.1+cu102 torchvision==0.10.1+cu102 torchaudio==0.9.1 \
-    -f https://download.pytorch.org/whl/torch_stable.html
-```
-
-### For CPU users
-
-```bash
-pip install torch==1.9.1 torchvision==0.10.1 torchaudio==0.9.1 \
     -f https://download.pytorch.org/whl/torch_stable.html
 ```
 
