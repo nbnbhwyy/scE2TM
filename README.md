@@ -77,7 +77,7 @@ Then install dependencies based on your hardware:
 $scE^2TM$ expects the following input files in CSV format:
 
 - **Gene expression matrix**: cell-by-gene matrix (`*_HIGHPRE.csv`)
-- **Cell type annotations**: ground-truth labels (`*_cell_anno.csv`) *(used only for evaluation)*
+- **Cell type annotations**: ground-truth labels (`*_cell_anno.csv`) *(optional)*
 - **Foundation-model embeddings**: pre-trained cell embeddings (`*.csv`)
 
 We provide the **Wang** dataset as a default example to help users understand and debug the code.
@@ -108,6 +108,13 @@ python run.py --gpu_id 0
 python run.py --gpu_id -1
 ```
 
+#### Use cell type labels for evaluation (optional)
+
+```bash
+# Enable label‑dependent metrics (ARI, NMI, etc.)
+python run.py --use_labels
+```
+
 #### Full parameter example
 
 ```bash
@@ -128,6 +135,43 @@ python run.py \
 jupyter notebook scE2TM_demo_on_Wang_dataset.ipynb
 ```
 
+#### Using the high‑level Python API
+
+The package provides a simple function `scE2TM()` that returns all results directly.
+
+```python
+from scE2TM import scE2TM
+
+# Basic label‑free run (no cell type annotations needed)
+results = scE2TM(
+    dataset_name='Wang',          # dataset name
+    data_dir='./data',            # directory containing CSV files
+    output_dir='./output',        # where to save outputs
+    num_topics=100,               # number of topics (K)
+    num_neighbors=15,             # number of neighbors for graph construction
+    weight_loss_ECR=100.0,        # weight for the ECR loss (default 100.0)
+    epochs=500,                   # total training epochs
+    gpu_id=0,                     # GPU device; use -1 for CPU
+)
+
+# With cell type labels (evaluation metrics ARI, NMI, Purity will be computed)
+results = scE2TM(
+    dataset_name='Wang',
+    use_labels=True,              # enable label‑dependent metrics
+    num_topics=100,
+    num_neighbors=15,
+    weight_loss_ECR=100.0,
+    epochs=500,
+    gpu_id=0,
+)
+
+# Access the resulting matrices
+beta = results['topic_gene_matrix']        # normalized topic‑gene distribution (topics × genes)
+theta = results['cell_topic_matrix']       # cell‑topic distribution (cells × topics)
+topic_emb = results['topic_embeddings']
+gene_emb = results['gene_embeddings']
+```
+
 ### Output files
 
 After successful execution, the following files are saved in `output/Wang/`:
@@ -135,7 +179,7 @@ After successful execution, the following files are saved in `output/Wang/`:
 | File | Description |
 |------|-------------|
 | `Wang.pth` | Trained model checkpoint |
-| `Wang_topic_distribution.csv` | Cell-topic distribution (theta) |
+| `Wang_topic_distribution.csv` | Cell-topic distribution (theta, normalized topic‑gene distribution) |
 | `Wang_topic_embedding.csv` | Topic embeddings |
 | `Wang_gene_embedding.csv` | Gene embeddings |
 | `Wang_tg.csv` | Topic-gene matrix (beta) |
@@ -148,6 +192,8 @@ We provide tutorials in the `tutorial/` directory covering both basic usage and 
 
 | Tutorial | Description |
 |----------|-------------|
+| `Prepare_foundation_embeddings_scGPT.ipynb` | Generate foundation-model embeddings using scGPT for input to scE2TM. |
+| `Topic_number_selection_with_stability.ipynb` | Use topic stability, diversity, coherence, and clustering metrics (ARI/NMI, optional) to guide the choice of the optimal number of topics (K). |
 | `Clustering and Interpretable Evaluation.ipynb` | Evaluate clustering performance and interpretability of the learned topics. |
 | `Consistency between rare types and topics.ipynb` | Evaluate how well learned topics capture rare cell populations and their consistency with rare cell types. |
 | `Pathway Enrichment.ipynb` | Perform pathway enrichment analysis on learned topics. |
@@ -160,10 +206,13 @@ We provide tutorials in the `tutorial/` directory covering both basic usage and 
 
 We also provide tutorials for several relevant baselines in the `baseline/` directory:
 
-- `scVI.ipynb`
-- `scVI-LD.ipynb`
-- `scETM.ipynb`
-- `d-scIGM.ipynb`
+- `scVI.ipynb` – Variational inference for single-cell data
+- `scVI-LD.ipynb` – scVI with latent Dirichlet allocation
+- `scETM.ipynb` – Embedded topic model for single-cell data
+- `d-scIGM.ipynb` – Deep single-cell interpretable generative model
+- `baseline_louvain_clustering.ipynb` – Louvain clustering on PCA‑reduced expression data
+- `baseline_cNMF.ipynb` – Consensus NMF topic modeling
+- `baseline_SPECTRA.ipynb` – SPECTRA factor analysis
 
 These notebooks are designed to help users reproduce baseline results in a consistent environment. After setting up the main $scE^2TM$ environment, each baseline tutorial explains:
 
