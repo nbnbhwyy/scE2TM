@@ -7,6 +7,7 @@ import scipy.io
 import pandas as pd
 import torch.nn as nn
 import copy
+import os
 from umap.umap_ import nearest_neighbors
 import heapq
 from sklearn.utils import check_random_state
@@ -229,7 +230,7 @@ class ExpressionEmbeddingNeighborDataset(Dataset):
 
 class SingleCellDataHandler:
     def __init__(self, dataset_name, batch_size, n_neighbors, 
-                 data_dir='./data', output_dir='./output', device=None):
+                data_dir='./data', output_dir='./output', device=None, use_labels=False):
         """
         Args:
             dataset_name: dataset name
@@ -240,6 +241,7 @@ class SingleCellDataHandler:
             device: computation device
         """
         self.data_dir = data_dir
+        self.use_labels = use_labels
         self.output_dir = output_dir
         self.device = device if device else torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         
@@ -306,58 +308,57 @@ class SingleCellDataHandler:
 
         self.train_loader = train_loader
         self.test_loader = test_loader
+        
+        # 在 __init__ 末尾添加
+        if self.train_labels is None:
+            print("Running in label-free mode. No evaluation will be performed during training.")
+        else:
+            print(f"===>#labels: {len(np.unique(self.train_labels))}")
 
     def load_data(self, data_name):
-        """
-        Load dataset
-        
-        Args:
-            data_name: dataset name
-        Returns:
-            expression_data, test_expression_data, train_labels, test_labels, gene_vocab, gene_embeddings, foundation_embeddings
-        """
         name = data_name
-        data_path = self.data_dir + '/'  
+        data_path = self.data_dir + '/'
         
-        expression_file = name + '_HIGHPRE.csv' 
-        label_file = name + '_cell_anno.csv' 
-        foundation_embedding_file = name + '.csv'  
+        expression_file = name + '_HIGHPRE.csv'
+        label_file = name + '_cell_anno.csv'
+        foundation_embedding_file = name + '.csv'
         
-        # Load expression data
+        # 加载表达数据（必须存在）
         expression_df = pd.read_csv(data_path + expression_file, sep=',', index_col=0)
         
-        # Load labels
-        label_df = pd.read_csv(data_path + label_file, sep=',', index_col=0)
-        labels = list(label_df.iloc[:, 0])   
+        # ---- 标签加载：仅在启用评估模式时执行 ----
+        if self.use_labels:
+            label_path = data_path + label_file
+            if not os.path.exists(label_path):
+                raise FileNotFoundError(f"Label file {label_path} not found but eval mode is enabled.")
+            label_df = pd.read_csv(label_path, sep=',', index_col=0)
+            labels = list(label_df.iloc[:, 0])
+            # 转换为数值标签（原有代码）
+            label_np = np.zeros(len(labels))
+            label_to_idx = {}
+            label_idx = 0
+            for idx, label_value in enumerate(labels):
+                if label_value not in label_to_idx:
+                    label_idx += 1
+                    label_to_idx[label_value] = label_idx
+            for idx, label_value in enumerate(labels):
+                label_np[idx] = label_to_idx[label_value]
+            train_labels = label_np
+            test_labels = label_np
+        else:
+            # 默认无标签模式
+            train_labels = None
+            test_labels = None
+            print("Running in label-free mode (use --eval to load labels).")
         
-        # Gene vocabulary
-        gene_vocab = list(expression_df.columns)  
-        
-        # Initialize gene embeddings
-        gene_embeddings = nn.init.trunc_normal_(torch.zeros(len(gene_vocab), 200), std=0.02).numpy()  
-
-        # Convert string labels to numeric
-        label_np = np.zeros(len(labels))
-        label_to_idx = {}  
-        label_idx = 0 
-        for idx, label_value in enumerate(labels):
-            if label_value not in label_to_idx:
-                label_idx += 1
-                label_to_idx[label_value] = label_idx
-
-        for idx, label_value in enumerate(labels):
-            label_np[idx] = label_to_idx[label_value]
-
-        expression_data = expression_df.values.astype(np.float32)  
-        train_labels = label_np
-        test_expression_data = expression_df.values.astype(np.float32)  
-        test_labels = label_np
-        
-        # Load foundation embeddings
+        # 后续基因词汇表、嵌入等不变
+        gene_vocab = list(expression_df.columns)
+        gene_embeddings = nn.init.trunc_normal_(torch.zeros(len(gene_vocab), 200), std=0.02).numpy()
+        expression_data = expression_df.values.astype(np.float32)
+        test_expression_data = expression_data.copy()
         foundation_embedding_path = data_path + foundation_embedding_file
-        foundation_embeddings = torch.from_numpy(pd.read_csv(foundation_embedding_path, sep=',', index_col=0).values) 
+        foundation_embeddings = torch.from_numpy(pd.read_csv(foundation_embedding_path, sep=',', index_col=0).values)
         
-        print(f"Expression data shape: {expression_data.shape}")
-        print(f"Foundation embeddings shape: {foundation_embeddings.shape}")
-        
-        return expression_data, test_expression_data, train_labels, test_labels, gene_vocab, gene_embeddings, foundation_embeddings
+        return (expression_data, test_expression_data,
+                train_labels, test_labels,
+                gene_vocab, gene_embeddings, foundation_embeddings)

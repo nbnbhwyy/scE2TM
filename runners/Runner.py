@@ -180,15 +180,17 @@ class Runner:
             torch.save(self.model, os.path.join(model_save_dir, f'{self.args.dataset_name}.pth'))
             
             self.model.eval()
-            beta = self.model.get_topic_gene_distribution()  
-            topic_embedding, gene_embedding = self.model.get_embeddings() 
+            beta = self.model.get_topic_gene_distribution()
+            topic_embedding, gene_embedding = self.model.get_embeddings()
             beta = beta.detach().cpu().numpy()
             topic_distribution = self.test(test_loader)
 
+            # 计算 topic diversity（不依赖标签）
             topic_strings = extract_topic_genes(beta, gene_vocab, num_top_genes)
-            topic_diversity = compute_topic_diversity(topic_strings) 
+            topic_diversity = compute_topic_diversity(topic_strings)
             print(f"===>Topic Diversity (top {num_top_genes}): {topic_diversity:.5f}")
 
+            # 计算 topic coherence（不依赖标签）
             gene_set_path = './data/msigdb.v2024.1.Hs.symbols.gmt'
             kegg = gp.read_gmt(path=gene_set_path)
             all_genes = []
@@ -198,48 +200,49 @@ class Runner:
             gene_to_idx = {}
             for index, value in enumerate(all_genes):
                 gene_to_idx[value] = index
-                
             pathway_matrix = np.zeros((len(kegg), len(all_genes)))
             for index, values in enumerate(kegg.values()):
                 for value in values:
                     pathway_matrix[index][gene_to_idx[value]] = 1
-  
-            gene_idx_mapping = {}  
+            gene_idx_mapping = {}
             for index, gene in enumerate(gene_vocab):
                 if gene in gene_to_idx:
                     gene_idx_mapping[index] = gene_to_idx[gene]
-
             topic_coherence = compute_topic_coherence(pathway_matrix, beta, num_top_genes, gene_idx_mapping)
             print(f"===>Topic Coherence (top {num_top_genes}): {topic_coherence:.5f}")
-            
+
+            # 保存输出文件（不依赖标签）
             pd.DataFrame(beta).to_csv(os.path.join(model_save_dir, f'{self.args.dataset_name}_tg.csv'))
             pd.DataFrame(topic_distribution).to_csv(os.path.join(model_save_dir, f'{self.args.dataset_name}_topic_distribution.csv'))
             pd.DataFrame(topic_embedding.detach().cpu().numpy()).to_csv(os.path.join(model_save_dir, f'{self.args.dataset_name}_topic_embedding.csv'))
             pd.DataFrame(gene_embedding.detach().cpu().numpy()).to_csv(os.path.join(model_save_dir, f'{self.args.dataset_name}_gene_embedding.csv'))
-            
-            adata = sc.AnnData(topic_distribution)
-            adata.obs['cell_type'] = cell_labels
-            sc.pp.pca(adata)
-            sc.pp.neighbors(adata, use_rep='X')
-            max_resolution = 2  
-            min_resolution = 0  
-            ari_scores = []  
-            for res in range(min_resolution, max_resolution * 10):
-                sc.tl.louvain(adata, resolution=res / 10.0, random_state=0)
-                ari_scores.append(adjusted_rand_score(adata.obs['cell_type'], adata.obs['louvain']))
-            
-            best_resolution = np.argmax(ari_scores) * 0.1
-            sc.tl.louvain(adata, resolution=best_resolution, random_state=0)
-            
-            ari = adjusted_rand_score(adata.obs['cell_type'], adata.obs['louvain'])
-            ami = adjusted_mutual_info_score(adata.obs['cell_type'], adata.obs['louvain'])
-            asw = silhouette_score(adata.X, adata.obs['cell_type'])
-            purity = purity_score(adata.obs['cell_type'], np.argmax(adata.X, axis=1))
-            
-            print(f"scE2TM ARI: {ari:.4f}, AMI: {ami:.4f}, ASW: {asw:.4f}, Purity: {purity:.4f}")
-            
-            evaluate_classification(topic_distribution, cell_labels)
-            print(f"scE2TM Purity: {purity:.4f}")
+
+            # ===== 依赖标签的评估部分 =====
+            if cell_labels is not None:
+                adata = sc.AnnData(topic_distribution)
+                adata.obs['cell_type'] = cell_labels
+                sc.pp.pca(adata)
+                sc.pp.neighbors(adata, use_rep='X')
+                max_resolution = 2
+                min_resolution = 0
+                ari_scores = []
+                for res in range(min_resolution, max_resolution * 10):
+                    sc.tl.louvain(adata, resolution=res / 10.0, random_state=0)
+                    ari_scores.append(adjusted_rand_score(adata.obs['cell_type'], adata.obs['louvain']))
+                best_resolution = np.argmax(ari_scores) * 0.1
+                sc.tl.louvain(adata, resolution=best_resolution, random_state=0)
+
+                ari = adjusted_rand_score(adata.obs['cell_type'], adata.obs['louvain'])
+                ami = adjusted_mutual_info_score(adata.obs['cell_type'], adata.obs['louvain'])
+                asw = silhouette_score(adata.X, adata.obs['cell_type'])
+                purity = purity_score(adata.obs['cell_type'], np.argmax(adata.X, axis=1))
+                print(f"scE2TM ARI: {ari:.4f}, AMI: {ami:.4f}, ASW: {asw:.4f}, Purity: {purity:.4f}")
+
+                evaluate_classification(topic_distribution, cell_labels)
+                print(f"scE2TM Purity: {purity:.4f}")
+            else:
+                print("No cell labels provided. Skipping clustering and classification evaluation.")
+
             return topic_distribution
     
     def make_lr_scheduler(self, optimizer,):
@@ -262,7 +265,8 @@ class Runner:
         
         optimizer = self.make_optimizer()
  
-        if "lr_scheduler" in self.args:
+        # if "lr_scheduler" in self.args:
+        if hasattr(self.args, "lr_scheduler"):
             print("===>Warning: use lr_scheduler")
             lr_scheduler = self.make_lr_scheduler(optimizer)
 
@@ -289,7 +293,8 @@ class Runner:
                 for key in result_dict:
                     loss_dict[key] += result_dict[key] * len(expression)
 
-            if 'lr_scheduler' in self.args:
+            # if 'lr_scheduler' in self.args:
+            if hasattr(self.args, "lr_scheduler"):
                 lr_scheduler.step()
 
             output_log = f'Epoch: {epoch:03d}'

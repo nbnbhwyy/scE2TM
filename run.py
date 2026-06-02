@@ -34,6 +34,9 @@ def parse_args():
                         help='Directory for data files')
     parser.add_argument('--output_dir', type=str, default='./output',
                         help='Directory for output files')
+    parser.add_argument('--use_labels', action='store_true', default=True,
+                        help='If set, load cell type labels and perform evaluation metrics (clustering, classification). '
+                            'Otherwise run in label-free mode (default).')
     args = parser.parse_args()
     return args
 def set_seed(seed):
@@ -81,12 +84,13 @@ def main():
     print('\n' + yaml.dump(vars(args), default_flow_style=False))
 
     data_handler = SingleCellDataHandler(
-        dataset_name=args.dataset_name,  
-        batch_size=args.batch_size,    
-        n_neighbors=args.num_neighbors,   
+        dataset_name=args.dataset_name,
+        batch_size=args.batch_size,
+        n_neighbors=args.num_neighbors,
         data_dir=args.data_dir,
         output_dir=args.output_dir,
-        device=device  
+        device=device,
+        use_labels=args.use_labels
     )
         
     args.vocab_size = data_handler.expression_data.shape[1]
