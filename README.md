@@ -167,8 +167,8 @@ results = scE2TM(
 )
 
 # Access the resulting matrices
-beta = results['topic_gene_matrix']        # normalized topic‑gene distribution (topics × genes)
-theta = results['cell_topic_matrix']       # cell‑topic distribution (cells × topics)
+beta = results['topic_gene_matrix']        
+theta = results['cell_topic_matrix']      # latent cell-topic scores (cells × topics)
 topic_emb = results['topic_embeddings']
 gene_emb = results['gene_embeddings']
 ```
@@ -180,7 +180,7 @@ After successful execution, the following files are saved in `output/Wang/`:
 | File | Description |
 |------|-------------|
 | `Wang.pth` | Trained model checkpoint |
-| `Wang_topic_distribution.csv` | Cell-topic distribution (theta, normalized topic‑gene distribution) |
+| `Wang_topic_distribution.csv` | Cell-topic distribution (theta, Latent cell-topic scores (cells × topics)) |
 | `Wang_topic_embedding.csv` | Topic embeddings |
 | `Wang_gene_embedding.csv` | Gene embeddings |
 | `Wang_tg.csv` | Topic-gene matrix (beta) |
