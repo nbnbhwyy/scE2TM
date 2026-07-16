@@ -79,7 +79,7 @@ Then install dependencies based on your hardware:
 $scE^2TM$ expects the following input files in CSV format:
 
 - **Gene expression matrix**: cell-by-gene matrix (`*_HIGHPRE.csv`)
-- **Cell type annotations**: ground-truth labels (`*_cell_anno.csv`) *(optional)*
+- **Cell type annotations**: ground-truth labels (`*_cell_anno.csv`) *(optional; used only for evaluation and not for model training)*
 - **Foundation-model embeddings**: pre-trained cell embeddings (`*.csv`)
 
 We provide the **Wang** dataset as a default example to help users understand and debug the code.
@@ -110,10 +110,12 @@ python run.py --gpu_id 0
 python run.py --gpu_id -1
 ```
 
-#### Use cell type labels for evaluation (optional)
+#### Enable label-dependent evaluation metrics (optional)
+
+By default, scE²TM runs without cell-type annotations. Adding `--use_labels` only computes label-dependent evaluation metrics and does not use labels during model training.
 
 ```bash
-# Enable label‑dependent metrics (ARI, NMI, etc.)
+# Compute ARI, NMI, Purity, and other label-dependent metrics
 python run.py --use_labels
 ```
 
@@ -129,7 +131,7 @@ python run.py \
     --gpu_id 0 \
     --data_dir ./data \
     --output_dir ./output \
-    --use_labels
+    --use_labels False
 ```
 
 #### Jupyter demo
@@ -157,10 +159,12 @@ results = scE2TM(
     gpu_id=0,                     # GPU device; use -1 for CPU
 )
 
-# With cell type labels (evaluation metrics ARI, NMI, Purity will be computed)
+# Label-free training with optional label-dependent evaluation
+# Cell-type annotations are used only to compute ARI, NMI, and Purity.
+# They are not used during model training.
 results = scE2TM(
     dataset_name='Wang',
-    use_labels=True,              # enable label‑dependent metrics
+    use_labels=True,  # compute label-dependent metrics only; labels are not used for training
     num_topics=100,
     num_neighbors=15,
     weight_loss_ECR=20.0,
