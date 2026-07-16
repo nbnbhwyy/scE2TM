@@ -72,6 +72,8 @@ Then install dependencies based on your hardware:
 
 ## 🚀 Quick Start
 
+> **Label usage:** scE²TM is label-free by default. Cell-type annotations are not used for model training. The optional `--use_labels` flag, or `use_labels=True` in the Python API, only enables label-dependent evaluation metrics such as ARI, NMI, and Purity when ground-truth annotations are available.
+
 ### Data format
 
 $scE^2TM$ expects the following input files in CSV format:
